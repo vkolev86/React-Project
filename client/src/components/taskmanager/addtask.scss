@@ -1,0 +1,25 @@
+.addtask {
+    width: 100%;
+
+    form {
+        width: 50%;
+        margin: 3rem;
+        display: flex;
+
+    }
+
+    input {
+        width:  30rem;
+        // border: none;
+        // outline: none;
+        // background-color: whitesmoke;
+        // border-radius: 5px;
+
+    }
+}
+
+.error {
+        color: red;
+        padding-left: 10px;
+        padding-top: 7px;
+    }
