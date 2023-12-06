@@ -60,7 +60,7 @@ const AddTask = () => {
 						{errors["task"]}
 					</Alert> 
 					) : ('')}
-				<form action='' onSubmit={handleSubmit}>
+				<form action='' onSubmit={handleSubmit} autoComplete="off">
 					<TextField 
 						sx={{ml: 2, mr: 2}}
 						id="outlined-basic"
@@ -86,7 +86,7 @@ const AddTask = () => {
 						sx={{ml: 2, mr: 2}}
 						variant="contained" 
 						endIcon={<SendIcon />}>
-							Add
+							Add New Task
 					</Button>
 				</form>
 			</div>
