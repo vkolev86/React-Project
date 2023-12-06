@@ -90,7 +90,7 @@ const Dashboard = () => {
 							</Card>
 						</div>
 							<Link to='/taskmanager'>
-								<Button variant="contained" endIcon={<SendIcon />}>Viwe Task or Create New</Button>
+								<Button size="large" variant="contained" color='warning' endIcon={<SendIcon />}>View Task or Create New</Button>
 							</Link>
 					</div>
 				</div>

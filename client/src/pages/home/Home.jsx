@@ -2,6 +2,8 @@ import './home.scss';
 
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Button } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 
 const Home = () => {
 	const { auth } = useSelector((state) => ({ ...state }));
@@ -17,8 +19,8 @@ const Home = () => {
 						View Task
 					</Link>
 				) : (
-					<Link to='/signin' className='button'>
-						View Task
+					<Link to='/signin'>
+						<Button size="large" variant="contained" color='warning' endIcon={<SendIcon />}>View Task</Button>
 					</Link>
 				)}
 			</div>

@@ -66,14 +66,6 @@ const Signin = () => {
 				<form className='form' onSubmit={handleSubmit}>
 					<h4>Sign In</h4>
 					<div className='form-group'>
-						{/* <input
-							type='email'
-							name='email'
-							value={state.email}
-							id=''
-							placeholder='Enter Email'
-							onChange={handleChange}
-						/> */}
 						<TextField 
 							id="outlined-basic"
 							label="Enter email address"
@@ -98,14 +90,6 @@ const Signin = () => {
 						) : ('')}
 					</div>
 					<div className='form-group'>
-						{/* <input
-							type='password'
-							name='password'
-							value={state.password}
-							id=''
-							placeholder='Enter Password'
-							onChange={handleChange}
-						/> */}
 						<TextField 
 							id="outlined-basic"
 							label="Enter password"
@@ -130,10 +114,11 @@ const Signin = () => {
 						) : ('')}
 					</div>
 					<div className='form-group'>
-						{/* <button className='button'>Sing In</button> */}
 						<Button 
 							type="submit" 
-							variant="contained" 
+							size="large" 
+							variant="contained"
+							color='warning'
 							endIcon={<LoginIcon />}>
 								Sign In
 						</Button>
