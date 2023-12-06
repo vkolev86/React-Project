@@ -29,8 +29,9 @@ const TaskList = () => {
 				<TableRow>
 					<TableCell align="left">Id</TableCell>
 					<TableCell align="left">Name</TableCell>
-					<TableCell align="left">Status</TableCell>
-					<TableCell align="left">Action</TableCell>
+					<TableCell align="left">Description</TableCell>
+					<TableCell align="center">Status</TableCell>
+					<TableCell align="center">Action</TableCell>
 				</TableRow>
 			</TableHead>
 				{Object.values(AllTasks).map((item) => {

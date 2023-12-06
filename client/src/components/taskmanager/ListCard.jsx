@@ -52,13 +52,14 @@ const ListCard = (items) => {
             >
 			  <TableCell component="th" scope="row">{item._id}</TableCell>
               <TableCell align="left">{item.task}</TableCell>
-              <TableCell align="left">
+              <TableCell align="left">{item.description}</TableCell>
+              <TableCell align="center">
 				<Badge
 					color={item.status && item.status == "done" ? ( "success") : ("warning")}
 					badgeContent={item.status}>
 				</Badge>
 			  </TableCell>
-              <TableCell align="left">
+              <TableCell align="center">
 				{auth.currentUser && auth.currentUser.id ==  item.cretedBy ? (
 					<>
 						<Link
