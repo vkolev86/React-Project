@@ -14,6 +14,7 @@ const AddTask = () => {
 	const { currentUser } = auth;
 	const [state, setState] = useState({
 		task: '',
+		description: '',
 	});
 	const [errors, setErrors] = useState({});
 
@@ -22,10 +23,10 @@ const AddTask = () => {
 		const formErrors = {};
 		let formIsValid = true;
 	
-		// Min Lenght
-		if (formFields["task"].length < 5) {
+		// Min Lenght for task name and description
+		if (formFields["task"].length < 5 || formFields["description"].length < 5) {
 			formIsValid = false;
-			formErrors["task"] = "Task name must be at least 5 letters long!";
+			formErrors["task"] = "Task name and description must be at least 5 letters long!";
 		}
 	
 		setErrors(formErrors)
@@ -43,25 +44,25 @@ const AddTask = () => {
 		e.preventDefault();
 		
 		if (handleValidation()) {
-			dispatch(addTask(state.task, currentUser.id));
+			dispatch(addTask(state.task, state.description, currentUser.id));
 			setState({
 				task: '',
+				description: '',
 			});
 		}
 	};
 
 	return (
 		<center>
-			<div>
-				<div className='addtask'>
-					{/* <span className="error">{errors["task"]}</span>*/}
-					{errors["task"] && errors["task"] ? (
-						<Alert variant="filled" severity="error">
-							{errors["task"]}
-						</Alert> 
-						) : ('')}
-					<form action='' onSubmit={handleSubmit}>
+			<div className='addtask'>
+				{errors["task"] ? (
+					<Alert variant="filled" severity="error">
+						{errors["task"]}
+					</Alert> 
+					) : ('')}
+				<form action='' onSubmit={handleSubmit}>
 					<TextField 
+						sx={{ml: 2, mr: 2}}
 						id="outlined-basic"
 						label="Enter task name"
 						variant="outlined"
@@ -70,22 +71,24 @@ const AddTask = () => {
 						onChange={handleChange}
 						value={state.task}
 					/>
-						{/* <input
-							type='text'
-							name='task'
-							placeholder='add your task'
-							onChange={handleChange}
-							value={state.task}
-						/> */}
-						<Button 
-							type="submit" 
-							sx={{ml: 2, mr: 2}}
-							variant="contained" 
-							endIcon={<SendIcon />}>
-								Add New Task
-						</Button>
-					</form>
-				</div>
+					<TextField 
+						sx={{ml: 2, mr: 2}}
+						id="outlined-basic"
+						label="Enter description"
+						variant="outlined"
+						type='text'
+						name='description'
+						onChange={handleChange}
+						value={state.description}
+					/>
+					<Button 
+						type="submit" 
+						sx={{ml: 2, mr: 2}}
+						variant="contained" 
+						endIcon={<SendIcon />}>
+							Add
+					</Button>
+				</form>
 			</div>
 		</center>
 	);

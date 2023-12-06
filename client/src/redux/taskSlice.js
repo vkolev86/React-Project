@@ -53,9 +53,10 @@ export const {
 
 export default taskSlice.reducer;
 
-export const addTask = (task, id) => async (dispatch) => {
+export const addTask = (task, description, id) => async (dispatch) => {
 	const taskData = {
 		task,
+		description,
 		id,
 	};
 	const response = await axios.post('http://localhost:4000/task/add', taskData);
