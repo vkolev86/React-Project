@@ -2,13 +2,16 @@ const User = require('../model/user.model');
 const Task = require('../model/task.model');
 
 const addTask = async (req, res) => {
-	const { task, id } = req.body;
+	const { task, description, id } = req.body;
 
 	try {
 		if (!task) return res.status(400).send('please enter the task');
-		if (task.length < 5) res.status(400).send('add minimum 5 char');
+		if (task.length < 5) res.status(400).send('add minimum 5 char fo name');
+		if (!description) return res.status(400).send('please enter description');
+		if (description.length < 5) res.status(400).send('add minimum 5 char in description');
 		const taskDetail = await new Task({
 			task,
+			description,
 			cretedBy: id,
 		});
 		await taskDetail.save();
