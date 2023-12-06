@@ -66,6 +66,7 @@ const AddTask = () => {
 						id="outlined-basic"
 						label="Enter task name"
 						variant="outlined"
+						color='warning'
 						type='text'
 						name='task'
 						onChange={handleChange}
@@ -76,6 +77,7 @@ const AddTask = () => {
 						id="outlined-basic"
 						label="Enter description"
 						variant="outlined"
+						color='warning'
 						type='text'
 						name='description'
 						onChange={handleChange}
@@ -84,7 +86,8 @@ const AddTask = () => {
 					<Button 
 						type="submit" 
 						sx={{ml: 2, mr: 2}}
-						variant="contained" 
+						color='warning'
+						variant="outlined" 
 						endIcon={<SendIcon />}>
 							Add New Task
 					</Button>
