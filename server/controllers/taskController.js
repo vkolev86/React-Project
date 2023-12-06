@@ -23,7 +23,7 @@ const addTask = async (req, res) => {
 
 const getAllTasks = async (req, res) => {
 	try {
-		let tasklist = await Task.find();
+		let tasklist = await Task.find().sort({createdDate: 'desc'});
 		return res.status(200).send(tasklist);
 	} catch (error) {
 		return res.status(400).send(error);
