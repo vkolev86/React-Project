@@ -1,5 +1,6 @@
 import './listcard.scss';
 import { useState } from 'react';
+// import Moment from 'react-moment';
 import { arrowClick, deleteItem } from '../../redux/taskSlice';
 import { useDispatch, useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -53,6 +54,11 @@ const ListCard = (items) => {
 			  <TableCell component="th" scope="row">{item._id}</TableCell>
               <TableCell align="left">{item.task}</TableCell>
               <TableCell align="left">{item.description}</TableCell>
+              <TableCell align="center">
+				{/* <Moment format="YYYY/MM/DD"> */}
+					{item.createdDate}
+				{/* </Moment> */}
+			  </TableCell>
               <TableCell align="center">
 				<Badge
 					color={item.status && item.status == "done" ? ( "success") : ("warning")}

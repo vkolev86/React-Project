@@ -30,6 +30,7 @@ const TaskList = () => {
 					<TableCell align="left">Id</TableCell>
 					<TableCell align="left">Name</TableCell>
 					<TableCell align="left">Description</TableCell>
+					<TableCell align="center">Created Date</TableCell>
 					<TableCell align="center">Status</TableCell>
 					<TableCell align="center">Action</TableCell>
 				</TableRow>

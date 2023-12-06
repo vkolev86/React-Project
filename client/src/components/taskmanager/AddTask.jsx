@@ -63,7 +63,6 @@ const AddTask = () => {
 				<form action='' onSubmit={handleSubmit} autoComplete="off">
 					<TextField 
 						sx={{ml: 2, mr: 2}}
-						id="outlined-basic"
 						label="Enter task name"
 						variant="outlined"
 						color='warning'
@@ -74,7 +73,6 @@ const AddTask = () => {
 					/>
 					<TextField 
 						sx={{ml: 2, mr: 2}}
-						id="outlined-basic"
 						label="Enter description"
 						variant="outlined"
 						color='warning'
