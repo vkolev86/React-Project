@@ -87,7 +87,7 @@ const AddTask = () => {
 						color='warning'
 						variant="outlined" 
 						endIcon={<SendIcon />}>
-							Add New Task
+							Submit
 					</Button>
 				</form>
 			</div>

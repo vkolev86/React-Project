@@ -8,7 +8,8 @@ import { Link } from 'react-router-dom';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { blue, red, brown } from '@mui/material/colors';
+import EditIcon from '@mui/icons-material/Edit';
+import { blue, red, brown, orange } from '@mui/material/colors';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
@@ -19,11 +20,19 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Badge } from '@mui/material';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+
 
 const ListCard = (items) => {
 	const { item } = items;
 	const { auth } = useSelector((state) => ({ ...state }));
-	const [open, setOpen] = useState(false);
+	const [state, setState] = useState({
+		task: item.task,
+		description: item.description,
+	});
+	const [openEdit, setOpenEdit] = useState(false);
+	const [openDelete, setOpenDelete] = useState(false);
+
 
 	const dispatch = useDispatch();
 
@@ -31,17 +40,36 @@ const ListCard = (items) => {
 		dispatch(arrowClick(item, string));
 	};
 
-	const handleClickOpen = () => {
-		setOpen(true);
+	const handleClickOpenEdit = () => {
+		setOpenEdit(true);
 	};
 
+	const handleClickOpenDelete = () => {
+		setOpenDelete(true);
+	};
+
+	const handleCloseEdit = () => {
+		setOpenEdit(false);
+	};
+
+	const handleCloseDelete = () => {
+		setOpenDelete(false);
+	};
+	
 	const handleDelete = () => {
 		dispatch(deleteItem(item._id));
 	};
 
-	const handleClose = () => {
-		setOpen(false);
-	  };
+	const handleEdit = () => {
+		dispatch(EditTask(item._id));
+	};
+
+	const handleChangeEdit = (e) => {
+		setState({
+			...state,
+			[e.target.name]: e.target.value,
+		});
+	};
 
 	return (
 		<>
@@ -84,7 +112,10 @@ const ListCard = (items) => {
 								sx={item.status && item.status == "done" ? ({color: brown[50] }) : ({ color: blue[500] })}
 							/>
 						</Link>
-						<Link onClick={handleClickOpen}>
+						<Link onClick={handleClickOpenEdit} id='edit'>
+							<EditIcon sx={{ color: orange[500] }} />
+						</Link>
+						<Link onClick={handleClickOpenDelete} id='delete'>
 							<DeleteForeverIcon sx={{ color: red[500] }} />
 						</Link>
 					</>
@@ -97,6 +128,9 @@ const ListCard = (items) => {
 							<ArrowCircleRightIcon sx={{ color: brown[50] }} />
 						</Link>
 						<Link disabled >
+							<EditIcon sx={{ color: brown[50] }} />
+						</Link>
+						<Link disabled >
 							<DeleteForeverIcon sx={{ color: brown[50] }} />
 						</Link>
 					</>
@@ -105,22 +139,68 @@ const ListCard = (items) => {
             </TableRow>
         </TableBody>
 		<Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        open={openDelete}
+        onClose={handleCloseDelete}
+        aria-labelledby="delete"
+        aria-describedby="delete"
       >
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle id="delete">
           {"Are you sure you want to delete this task?"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id="delete">
 		  	Task: {item.task}
+			Description: {item.description}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>No</Button>
-          <Button onClick={handleDelete} autoFocus>Yes</Button>
+          <Button onClick={handleCloseDelete}>CANCEL</Button>
+          <Button onClick={handleDelete} autoFocus>DELETE</Button>
+        </DialogActions>
+      </Dialog>
+
+	  <Dialog
+        open={openEdit}
+        onClose={handleCloseEdit}
+		id='edit'
+        aria-labelledby="edit"
+        aria-describedby="edit"
+		maxWidth='lg'
+		fullWidth
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Edit task name and description."}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="edit">
+		  	{/* <form action='' onSubmit={handleSubmit} autoComplete="off"> */}
+		  	<form action='' autoComplete="off">
+				<TextField
+					helperText="Task name"
+					variant="outlined"
+					color='warning'
+					type='text'
+					name='task'
+					fullWidth
+					onChange={handleChangeEdit}
+					value={state.task}
+				/>
+				<TextField
+					helperText="Task description"
+					variant="outlined"
+					color='warning'
+					type='text'
+					name='description'
+					fullWidth
+					onChange={handleChangeEdit}
+					value={state.description}
+				/>
+			</form>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseEdit}>CANCEL</Button>
+          <Button onClick={handleEdit} autoFocus>EDIT</Button>
         </DialogActions>
       </Dialog>
 		</>
