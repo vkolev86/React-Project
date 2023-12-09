@@ -71,6 +71,26 @@ export const addTask = (task, description, id) => async (dispatch) => {
 	}
 };
 
+export const editTask = (id, task, description) => async () => {
+	let taskData = {
+		id: id,
+		taskName: task,
+		taskDesc: description,
+	};
+	
+	try {
+		let response = await axios.put(
+			`http://localhost:4000/task/edit/${taskData.id}`,
+			taskData
+		);
+		if (response) {
+			window.location.reload();
+		}
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 export const getAllTasks = (token, id) => async (dispatch) => {
 	const config = {
 		headers: {

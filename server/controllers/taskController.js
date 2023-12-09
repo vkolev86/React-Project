@@ -30,7 +30,20 @@ const getAllTasks = async (req, res) => {
 	}
 };
 
-const editTask = async (req, res) => {};
+const editTask = async (req, res) => {
+	const { id, taskName, taskDesc } = req.body;
+	try {
+		let task = await Task.findById({ _id: id });
+		task.task = taskName;
+		task.description = taskDesc;
+		task.save();
+
+			return res.send(task);
+
+	} catch (error) {
+		return res.status(400).send('edit task failed');
+	}
+};
 
 const statusChange = async (req, res) => {
 	const { id, string } = req.body;

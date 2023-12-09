@@ -1,7 +1,7 @@
 import './listcard.scss';
 import { useState } from 'react';
 // import Moment from 'react-moment';
-import { arrowClick, deleteItem } from '../../redux/taskSlice';
+import { arrowClick, deleteItem, editTask } from '../../redux/taskSlice';
 import { useDispatch, useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -27,11 +27,13 @@ const ListCard = (items) => {
 	const { item } = items;
 	const { auth } = useSelector((state) => ({ ...state }));
 	const [state, setState] = useState({
+		id: item._id,
 		task: item.task,
 		description: item.description,
 	});
 	const [openEdit, setOpenEdit] = useState(false);
 	const [openDelete, setOpenDelete] = useState(false);
+	const [errors, setErrors] = useState({});
 
 
 	const dispatch = useDispatch();
@@ -60,8 +62,31 @@ const ListCard = (items) => {
 		dispatch(deleteItem(item._id));
 	};
 
-	const handleEdit = () => {
-		dispatch(EditTask(item._id));
+	const handleValidation = () => {
+		const formFields = {...state};
+		const formErrors = {};
+		let formIsValid = true;
+	
+		// Min Lenght for task name and description
+		if (formFields["task"].length < 5 || formFields["description"].length < 5) {
+			formIsValid = false;
+			formErrors["task"] = "Task name and description must be at least 5 letters long!";
+		}
+	
+		setErrors(formErrors)
+		return formIsValid;
+	  }
+
+	const handleEditSubmit = (e) => {
+		e.preventDefault();
+		
+		if (handleValidation()) {
+			dispatch(editTask(state.id, state.task, state.description));
+			setState({
+				task: '',
+				description: '',
+			});
+		}
 	};
 
 	const handleChangeEdit = (e) => {
@@ -173,8 +198,9 @@ const ListCard = (items) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="edit">
-		  	{/* <form action='' onSubmit={handleSubmit} autoComplete="off"> */}
+		  	{/* <form action='' onSubmit={handleEditSubmit} autoComplete="off"> */}
 		  	<form action='' autoComplete="off">
+
 				<TextField
 					helperText="Task name"
 					variant="outlined"
@@ -200,10 +226,10 @@ const ListCard = (items) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseEdit}>CANCEL</Button>
-          <Button onClick={handleEdit} autoFocus>EDIT</Button>
+          <Button onClick={handleEditSubmit} autoFocus>EDIT</Button>
         </DialogActions>
       </Dialog>
-		</>
+		</> 
 	);
 };
 
