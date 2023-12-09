@@ -79,14 +79,12 @@ const ListCard = (items) => {
 
 	const handleEditSubmit = (e) => {
 		e.preventDefault();
-		
-		if (handleValidation()) {
-			dispatch(editTask(state.id, state.task, state.description));
+
+		dispatch(editTask(state.id, state.task, state.description));
 			setState({
 				task: '',
 				description: '',
 			});
-		}
 	};
 
 	const handleChangeEdit = (e) => {
