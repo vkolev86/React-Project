@@ -11,9 +11,6 @@ const Home = () => {
 	return (
 		<div className='home'>
 			<div className='home__container'>
-				{/* <h2>Task Manager</h2>
-				<p>organize your task</p> */}
-
 				{currentUser && currentUser.token ? (
 					<Link to='/dashboard' className='button'>
 						View Task

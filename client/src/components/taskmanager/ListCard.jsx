@@ -1,7 +1,7 @@
 import './listcard.scss';
 import { useState, useEffect } from 'react';
 // import Moment from 'react-moment';
-import { arrowClick, deleteItem, editTask } from '../../redux/taskSlice';
+import { arrowClick, deleteItem, editTask, getAllTasks } from '../../redux/taskSlice';
 import { useDispatch, useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -45,6 +45,9 @@ const ListCard = (items) => {
 		dispatch(arrowClick(item, string)).then(() => {
 			toast.success('Task status update successfully! 👌');
 			console.log('Task status update successfully!');
+			setTimeout(() => {
+				dispatch(getAllTasks());
+			}, 100);
 		  })
 		.catch( () => { 
 			toast.error('Task status is not updated!');
@@ -74,6 +77,9 @@ const ListCard = (items) => {
 			setOpenDelete(false);
 			toast.success('Task deleted successfully! 👌');
 			console.log('Task deleted successfully!');
+			setTimeout(() => {
+				dispatch(getAllTasks());
+			}, 100);
 		  })
 		.catch( () => { 
 			setOpenDelete(false);
@@ -104,6 +110,9 @@ const ListCard = (items) => {
 			setOpenEdit(false);
 			toast.success('Task edited successfully! 👌');
 			console.log('Task edited successfully!');
+			setTimeout(() => {
+				dispatch(getAllTasks());
+			}, 100);
 		  })
 		.catch( () => { 
 			setOpenEdit(false);
@@ -222,9 +231,7 @@ const ListCard = (items) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="edit">
-		  	{/* <form action='' onSubmit={handleEditSubmit} autoComplete="off"> */}
 		  	<form action='' autoComplete="off">
-
 				<TextField
 					helperText="Task name"
 					variant="outlined"
