@@ -32,7 +32,7 @@ const signin = async (req, res) => {
 };
 
 const register = async (req, res) => {
-	console.log(req.body, 'req');
+	// console.log(req.body, 'req');
 	const { username, password, email } = req.body;
 	try {
 		if (!username) return res.status(400).send('username is required');
@@ -47,6 +47,7 @@ const register = async (req, res) => {
 		}
 
 		const userExist = await User.findOne({ email });
+
 		if (userExist) {
 			return res.status(400).send('email is taken');
 		}
@@ -58,7 +59,23 @@ const register = async (req, res) => {
 		});
 
 		await user.save();
-		return res.status(200).send(user);
+
+		const selectNewUser = await User.findOne({ email });
+
+		let token = jwt.sign({ _id: selectNewUser._id }, 'kljclsadflkdsjfklsdjfklsdjf', {
+			expiresIn: '24h',
+		});
+
+		const registeredUser = {
+			token,
+			username: selectNewUser.username,
+			email: selectNewUser.email,
+			id: selectNewUser._id,
+			createdAt: selectNewUser.createdAt,
+			updatedAt: selectNewUser.updatedAt,
+		};
+
+		return res.status(200).send(registeredUser);
 	} catch (error) {
 		return res, statusbar(400).send('Error creating user');
 	}
