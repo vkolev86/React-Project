@@ -1,12 +1,14 @@
 import './addtask.scss';
 import { useState } from 'react';
-import { addTask } from '../../redux/taskSlice';
+import { addTask, getAllTasks } from '../../redux/taskSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import TextField from '@mui/material/TextField';
 import { Alert } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddTask = () => {
 	const dispatch = useDispatch();
@@ -44,15 +46,28 @@ const AddTask = () => {
 		e.preventDefault();
 		
 		if (handleValidation()) {
-			dispatch(addTask(state.task, state.description, currentUser.id));
-			setState({
-				task: '',
-				description: '',
-			});
+			dispatch(addTask(state.task, state.description, currentUser.id))
+			.then(() => {
+				setState({
+					task: '',
+					description: '',
+				});
+				toast.success('New task added successfully! 👌');
+				console.log('New task added successfully!');
+				setTimeout(() => {
+					dispatch(getAllTasks());
+				}, 100);
+			})
+			.catch( () => { 
+				toast.error('New task added not added!');
+				console.log('New task added not added!');
+			 });
 		}
 	};
 
 	return (
+		<>
+		<ToastContainer />
 		<center>
 			<div className='addtask'>
 				{errors["task"] ? (
@@ -92,6 +107,7 @@ const AddTask = () => {
 				</form>
 			</div>
 		</center>
+		</>
 	);
 };
 

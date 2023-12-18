@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 
 const initalTask = localStorage.getItem('task')
 	? JSON.parse(localStorage.getItem('task'))
@@ -67,11 +66,11 @@ export const addTask = (task, description, id) => async (dispatch) => {
 	if (response) {
 		localStorage.setItem('task', JSON.stringify(response.data));
 
-		dispatch(taskAddedSuccessfully(response.data));
-		toast.success('task added successfully');
-		window.location.reload();
+		return dispatch(taskAddedSuccessfully(response.data));
+		// toast.success('task added successfully');
+		// window.location.reload();
 	} else {
-		dispatch(taskAddFailure());
+		return dispatch(taskAddFailure());
 	}
 };
 
