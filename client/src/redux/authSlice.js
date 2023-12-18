@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import history from '../history';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const initialUser = localStorage.getItem('auth')
 	? JSON.parse(localStorage.getItem('auth'))
@@ -61,19 +62,19 @@ export const register = (user) => async (dispatch) => {
 		);
 
 		if (response) {
+			localStorage.setItem('auth', JSON.stringify(response.data));
 			dispatch(registerSuccess(response.data));
-			toast.success('register successfull');
-			history.push('/signin');
-
-			window.location.reload();
+			toast.success('Register successfull');
+			useNavigate('/dashboard');
 			
 		} else {
 			dispatch(registerFailure());
-			toast.error('registration failed');
+			toast.error('Registration failed');
 		}
 	} catch (error) {
-		console.log(error);
-		dispatch(registerFailure());
+		// console.log(error);
+		// dispatch(registerFailure());
+		throw new Error(error);
 	}
 };
 

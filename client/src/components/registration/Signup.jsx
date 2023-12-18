@@ -11,6 +11,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import PersonIcon from '@mui/icons-material/Person';
 import PasswordIcon from '@mui/icons-material/Password';
 import EmailIcon from '@mui/icons-material/Email';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Signup = () => {
 	const dispatch = useDispatch();
@@ -58,7 +60,12 @@ const Signup = () => {
 					password: state.password,
 					email: state.email,
 				})
-			);
+			).then(() => {
+				console.log('Register successfully!');
+			  })
+			.catch( () => { 
+				toast.error('Email is taken or not valid!');
+			 });
 		}
 	};
 	const handleChange = (e) => {
@@ -70,6 +77,8 @@ const Signup = () => {
 
 	console.log(state.email, state.password, state.username);
 	return (
+		<>
+		<ToastContainer />
 		<div className='signup-form'>
 			<div className='signup-form__wrapper'>
 				<form className='form' onSubmit={handleSubmit}>
@@ -160,6 +169,7 @@ const Signup = () => {
 				</form>
 			</div>
 		</div>
+		</>
 	);
 };
 
