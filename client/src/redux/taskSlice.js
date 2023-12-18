@@ -32,6 +32,10 @@ export const taskSlice = createSlice({
 			state.TaskData = action.payload;
 		},
 
+		editfail: (state) => {
+			return state;
+		},
+
 		deleteSuccess: (state, action) => {
 			state.TaskData = action.payload;
 		},
@@ -84,10 +88,11 @@ export const editTask = (id, task, description) => async () => {
 			taskData
 		);
 		if (response) {
-			window.location.reload();
+			// window.location.reload();
+			return response;
 		}
 	} catch (error) {
-		console.log(error);
+		return error;
 	}
 };
 
@@ -131,10 +136,11 @@ export const arrowClick = (item, string) => async () => {
 		);
 
 		if (response) {
-			window.location.reload();
+			// window.location.reload();
+			return response;
 		}
 	} catch (error) {
-		console.log(error);
+		return error;
 	}
 };
 
@@ -142,11 +148,9 @@ export const deleteItem = (id) => async (dispatch) => {
 	let res = await axios.delete(`http://localhost:4000/task/${id}`);
 
 	if (res) {
-		dispatch(deleteSuccess());
-		toast.success('task deleted successfully');
-
-		window.location.reload();
+		return dispatch(deleteSuccess());
+		// window.location.reload();
 	} else {
-		dispatch(deletefail());
+		return dispatch(deletefail());
 	}
 };

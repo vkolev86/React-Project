@@ -1,5 +1,5 @@
 import './listcard.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // import Moment from 'react-moment';
 import { arrowClick, deleteItem, editTask } from '../../redux/taskSlice';
 import { useDispatch, useSelector} from 'react-redux';
@@ -21,25 +21,35 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Badge } from '@mui/material';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const ListCard = (items) => {
 	const { item } = items;
 	const { auth } = useSelector((state) => ({ ...state }));
+
 	const [state, setState] = useState({
 		id: item._id,
 		task: item.task,
 		description: item.description,
 	});
+
 	const [openEdit, setOpenEdit] = useState(false);
 	const [openDelete, setOpenDelete] = useState(false);
 	const [errors, setErrors] = useState({});
 
-
 	const dispatch = useDispatch();
 
 	const ArrowClick = (string) => {
-		dispatch(arrowClick(item, string));
+		dispatch(arrowClick(item, string)).then(() => {
+			toast.success('Task status update successfully! 👌');
+			console.log('Task status update successfully!');
+		  })
+		.catch( () => { 
+			toast.error('Task status is not updated!');
+			console.log('Task status is not updated!');
+		 });
 	};
 
 	const handleClickOpenEdit = () => {
@@ -59,7 +69,17 @@ const ListCard = (items) => {
 	};
 	
 	const handleDelete = () => {
-		dispatch(deleteItem(item._id));
+		dispatch(deleteItem(item._id))
+		.then(() => {
+			setOpenDelete(false);
+			toast.success('Task deleted successfully! 👌');
+			console.log('Task deleted successfully!');
+		  })
+		.catch( () => { 
+			setOpenDelete(false);
+			toast.error('Task is not deleted!');
+			console.log('Task is not deleted!');
+		 });
 	};
 
 	const handleValidation = () => {
@@ -80,11 +100,16 @@ const ListCard = (items) => {
 	const handleEditSubmit = (e) => {
 		e.preventDefault();
 
-		dispatch(editTask(state.id, state.task, state.description));
-			setState({
-				task: '',
-				description: '',
-			});
+		dispatch(editTask(state.id, state.task, state.description)).then(() => {
+			setOpenEdit(false);
+			toast.success('Task edited successfully! 👌');
+			console.log('Task edited successfully!');
+		  })
+		.catch( () => { 
+			setOpenEdit(false);
+			toast.error('Task is not edited!');
+			console.log('Task is not edited!');
+		 });
 	};
 
 	const handleChangeEdit = (e) => {
@@ -97,6 +122,7 @@ const ListCard = (items) => {
 	return (
 		<>
         <TableBody>
+			<ToastContainer />
             <TableRow
               key={item._id}
               sx={{ '&:last-child td, &:last-child th': '' }}

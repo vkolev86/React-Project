@@ -64,7 +64,9 @@ export const register = (user) => async (dispatch) => {
 			dispatch(registerSuccess(response.data));
 			toast.success('register successfull');
 			history.push('/signin');
+
 			window.location.reload();
+			
 		} else {
 			dispatch(registerFailure());
 			toast.error('registration failed');
@@ -76,7 +78,7 @@ export const register = (user) => async (dispatch) => {
 };
 
 export const signin = (user) => async (dispatch) => {
-	console.log(user);
+	// console.log(user);
 	try {
 		const userData = {
 			email: user.email,
@@ -91,14 +93,16 @@ export const signin = (user) => async (dispatch) => {
 			dispatch(loginSuccess(response.data));
 
 			history.push('/dashboard');
-			toast.success('login successfull');
+			console.log('Login successfully!');
 
-			window.location.reload();
+			// window.location.reload();
 		} else {
 			dispatch(loginFailure());
-			toast.error('login failed');
+			console.log('Login unsuccessfully!');
 		}
 	} catch (error) {
+		console.log(error);
 		dispatch(loginFailure());
+		throw new Error(error);
 	}
 };

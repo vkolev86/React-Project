@@ -10,6 +10,8 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import PersonIcon from '@mui/icons-material/Person';
 import PasswordIcon from '@mui/icons-material/Password';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Signin = () => {
 	const dispatch = useDispatch();
@@ -56,11 +58,19 @@ const Signin = () => {
 					email: state.email,
 					password: state.password,
 				})
-			);
+			).then(() => {
+				console.log('Login successfully!');
+			  })
+			.catch( () => { 
+				toast.error('Email or password do not match!');
+				console.log('Email or password do not match!');
+			 });
 		}
 	};
 
 	return (
+		<>
+			<ToastContainer />
 		<div className='signup-form'>
 			<div className='signup-form__wrapper'>
 				<form className='form' onSubmit={handleSubmit}>
@@ -126,6 +136,7 @@ const Signin = () => {
 				</form>
 			</div>
 		</div>
+		</>
 	);
 };
 
